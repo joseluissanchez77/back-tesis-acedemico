@@ -5,9 +5,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.academic.dto.InstituteDTO;
+import com.academic.dto.InstituteResponse;
 import com.academic.entity.Institution;
 import com.academic.exception.ResourceNotFoundException;
 import com.academic.repository.IntituteReposiortyI;
@@ -29,10 +33,27 @@ public class InstituteServiceImplement implements InstituteServiceI {
 		return institutionResponse;
 	}
 
-	@Override
-	public List<InstituteDTO> getAllIntitute() {
-		List<Institution> institute = intituteReposiortyI.findAll();
-		return institute.stream().map(intitu -> mapearDTO(intitu)).collect(Collectors.toList());
+	@Override 
+	public InstituteResponse getAllIntitute(int pageNo,int pageSize) {
+	//public List<InstituteDTO> getAllIntitute(int pageNo,int pageSize) {
+		
+		Pageable pageable = PageRequest.of(pageNo, pageSize);
+		
+		Page<Institution> institutePage = intituteReposiortyI.findAll(pageable);
+		
+		//List<Institution> listOfInstitute = institutePage.getContent();//intituteReposiortyI.findAll();
+		List<Institution> listOfInstitute = institutePage.getContent();//intituteReposiortyI.findAll();
+		List<InstituteDTO>  contenido = listOfInstitute.stream().map(intitu -> mapearDTO(intitu)).collect(Collectors.toList());
+		
+		InstituteResponse instituteResponse = new InstituteResponse();
+		instituteResponse.setContent(contenido);
+		instituteResponse.setPageNo(institutePage.getNumber());
+		instituteResponse.setPageSize(institutePage.getSize());
+		instituteResponse.setTotalElement(institutePage.getTotalElements());
+		instituteResponse.setTotalPage(institutePage.getTotalPages());
+		instituteResponse.setLast(institutePage.isLast());
+		
+		return instituteResponse;
 
 	}
 

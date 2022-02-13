@@ -1,13 +1,15 @@
 package com.academic.service;
 
-import java.util.List;
+
 import com.academic.dto.InstituteDTO;
+import com.academic.dto.InstituteResponse;
 
 
 public interface InstituteServiceI {
 	public InstituteDTO createIsntitute(InstituteDTO instituteDTO);
 	
-	public List<InstituteDTO> getAllIntitute();
+	//public List<InstituteDTO> getAllIntitute(int pageNo,int pageSize);
+	public InstituteResponse getAllIntitute(int pageNo,int pageSize);
 	
 	public InstituteDTO getAllIntituteById(long id);
 	
