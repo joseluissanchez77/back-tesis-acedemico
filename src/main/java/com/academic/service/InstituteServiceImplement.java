@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.academic.dto.InstituteDTO;
@@ -34,10 +35,11 @@ public class InstituteServiceImplement implements InstituteServiceI {
 	}
 
 	@Override 
-	public InstituteResponse getAllIntitute(int pageNo,int pageSize) {
+	public InstituteResponse getAllIntitute(int pageNo,int pageSize,String sortBy, String sortDir) {
 	//public List<InstituteDTO> getAllIntitute(int pageNo,int pageSize) {
 		
-		Pageable pageable = PageRequest.of(pageNo, pageSize);
+		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending() ;
+		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
 		
 		Page<Institution> institutePage = intituteReposiortyI.findAll(pageable);
 		

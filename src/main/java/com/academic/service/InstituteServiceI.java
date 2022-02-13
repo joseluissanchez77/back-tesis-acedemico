@@ -9,7 +9,7 @@ public interface InstituteServiceI {
 	public InstituteDTO createIsntitute(InstituteDTO instituteDTO);
 	
 	//public List<InstituteDTO> getAllIntitute(int pageNo,int pageSize);
-	public InstituteResponse getAllIntitute(int pageNo,int pageSize);
+	public InstituteResponse getAllIntitute(int pageNo,int pageSize,String sortBy, String sortDir );
 	
 	public InstituteDTO getAllIntituteById(long id);
 	

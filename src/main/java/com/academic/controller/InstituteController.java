@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.academic.dto.InstituteDTO;
 import com.academic.dto.InstituteResponse;
 import com.academic.service.InstituteServiceI;
+import com.academic.util.AppConstants;
 
 @RestController
 @RequestMapping("/api/institute")
@@ -27,9 +28,11 @@ public class InstituteController {
 	@GetMapping
 	public InstituteResponse listInstitutes(
 	//public List<InstituteDTO> listInstitutes(
-			@RequestParam(value = "pageNo", defaultValue = "0", required = false) int numberPage,
-			@RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize) {
-		return instituteServiceI.getAllIntitute(numberPage,pageSize);
+			@RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int numberPage,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) int pageSize,
+			@RequestParam(value = "sortBy", defaultValue = AppConstants.SORT_BY_DEFAULT, required = false) String sortBy,
+			@RequestParam(value = "sortDir", defaultValue = AppConstants.SORT_ADDRESS_BY_DEFAULT, required = false) String sortDir) {
+		return instituteServiceI.getAllIntitute(numberPage,pageSize, sortBy,sortDir);
 	}
 
 	@GetMapping("/{id}")
