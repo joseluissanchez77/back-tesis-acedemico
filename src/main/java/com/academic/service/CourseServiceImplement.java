@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import com.academic.dto.CourseDTO;
 import com.academic.entity.Course;
+import com.academic.entity.Institution;
+import com.academic.exception.ResourceNotFoundException;
 import com.academic.repository.CourseRepositoryI;
 import com.academic.repository.IntituteReposiortyI;
 
@@ -21,8 +23,15 @@ public class CourseServiceImplement implements CourseServiceI {
 	@Override
 	public CourseDTO createCourse(long instituteId, CourseDTO courseDTO) {
 		
+		Course course = mapearEntidad(courseDTO);
+		Institution institution = intituteReposiortyI.findById(instituteId).
+				orElseThrow(()->new ResourceNotFoundException("Institucion", "id", instituteId));
 		
-		return null;
+		course.setInstitution(institution);
+		Course newCourse = courseRepositoryI.save(course);
+		
+		
+		return mapearDTO(newCourse);
 	}
 	
 	
@@ -35,5 +44,17 @@ public class CourseServiceImplement implements CourseServiceI {
 		
 		return courseDTO;
 	}
+	
+	
+	private Course mapearEntidad(CourseDTO courseDTO) {
+		Course course = new Course();
+		
+		course.setId(courseDTO.getId());
+		course.setCo_name(courseDTO.getName());
+		course.setCo_parallel(courseDTO.getParallel());
+		
+		return course;
+	}
+
 
 }
