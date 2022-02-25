@@ -2,6 +2,8 @@ package com.academic.entity;
 
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -28,10 +30,12 @@ public class Course {
 	@Column(name = "co_parallel", nullable = false)
 	private String co_parallel;
 
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "status_id", nullable = false)
 	private Status status;
 	
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="institution_id", nullable = false)
 	private Institution institution;

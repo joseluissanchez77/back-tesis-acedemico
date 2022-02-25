@@ -14,5 +14,11 @@ public interface CourseServiceI {
 	public List<CourseDTO> getCourseIdByInstitute(long instituteId);
 	
 	//obtener por id
-	public CourseDTO getCourseById(long instituteId, long courseId);
+	public CourseDTO getCourseById(Long instituteId, Long courseId);
+	
+	//actualizar curso
+	public CourseDTO updateCourse(Long instituteId,  Long courseId, CourseDTO courseDTO);
+	
+	//eliminar cuso
+	public void deleteCourse(Long instituteId, Long courseId);
 }
