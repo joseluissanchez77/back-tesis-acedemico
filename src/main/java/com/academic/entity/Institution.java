@@ -85,6 +85,17 @@ public class Institution {
 		this.status = status;
 	}
 
+	
+	public Set<Course> getCourses() {
+		return courses;
+	}
+
+
+	public void setCourses(Set<Course> courses) {
+		this.courses = courses;
+	}
+
+
 	public Status getStatus() {
 		return status;
 	}

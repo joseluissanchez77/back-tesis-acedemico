@@ -74,6 +74,8 @@ public class InstituteServiceImplement implements InstituteServiceI {
 		instituteDTO.setDto_telephoneTwo(institute.getIt_telephoneTwo());
 		instituteDTO.setDto_email(institute.getIt_email());
 		instituteDTO.setDto_directorsName(institute.getIt_directorsName());
+		instituteDTO.setCourse(institute.getCourses());
+
 
 		return instituteDTO;
 
