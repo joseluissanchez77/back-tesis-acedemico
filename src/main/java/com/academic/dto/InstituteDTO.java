@@ -1,5 +1,8 @@
 package com.academic.dto;
 
+import java.util.Set;
+
+import com.academic.entity.Course;
 import com.academic.entity.Status;
 
 public class InstituteDTO {
@@ -27,6 +30,8 @@ public class InstituteDTO {
 	private String dto_directorsName;
 	
 	private Status dto_status_id;
+	
+	private Set<Course>course;
 
 	public InstituteDTO() {
 		super();
@@ -51,6 +56,20 @@ public class InstituteDTO {
 		this.dto_email = dto_email;
 		this.dto_directorsName = dto_directorsName;
 		this.dto_status_id = dto_status_id;
+	}
+
+
+
+
+	public Set<Course> getCourse() {
+		return course;
+	}
+
+
+
+
+	public void setCourse(Set<Course> course) {
+		this.course = course;
 	}
 
 
