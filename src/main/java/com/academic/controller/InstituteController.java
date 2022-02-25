@@ -34,16 +34,19 @@ public class InstituteController {
 			@RequestParam(value = "sortDir", defaultValue = AppConstants.SORT_ADDRESS_BY_DEFAULT, required = false) String sortDir) {
 		return instituteServiceI.getAllIntitute(numberPage,pageSize, sortBy,sortDir);
 	}
+	
 
 	@GetMapping("/{id}")
 	public ResponseEntity<InstituteDTO> getByIdInstitute(@PathVariable(name = "id") long id) {
 		return ResponseEntity.ok(instituteServiceI.getAllIntituteById(id));
 	}
+	
 
 	@PostMapping
 	public ResponseEntity<InstituteDTO> saveInstitute(@RequestBody InstituteDTO instituteDTO) {
 		return new ResponseEntity<>(instituteServiceI.createIsntitute(instituteDTO), HttpStatus.CREATED);
 	}
+	
 
 	@PutMapping("/{id}")
 	public ResponseEntity<InstituteDTO> updateInstitute(@RequestBody InstituteDTO instituteDTO,
@@ -51,6 +54,7 @@ public class InstituteController {
 		InstituteDTO instituteDtoResponse = instituteServiceI.updateIntitute(instituteDTO, id);
 		return new ResponseEntity<>(instituteDtoResponse, HttpStatus.OK);
 	}
+	
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteIntitute(@PathVariable(name = "id") long id) {

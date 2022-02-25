@@ -78,6 +78,7 @@ public class InstituteServiceImplement implements InstituteServiceI {
 		return instituteDTO;
 
 	}
+	
 
 	// metodo q convierte DTO a ENTIDAD
 	private Institution mapearEntity(InstituteDTO instituteDTO) {
@@ -95,6 +96,7 @@ public class InstituteServiceImplement implements InstituteServiceI {
 		institute.setIt_telephoneTwo(instituteDTO.getDto_telephoneTwo());
 		institute.setIt_email(instituteDTO.getDto_email());
 		institute.setIt_directorsName(instituteDTO.getDto_directorsName());
+		institute.setStatus(instituteDTO.getDto_status_id());
 
 		return institute;
 
@@ -127,6 +129,7 @@ public class InstituteServiceImplement implements InstituteServiceI {
 		institution.setIt_telephoneTwo(instituteDTO.getDto_telephoneTwo());
 		institution.setIt_email(instituteDTO.getDto_email());
 		institution.setIt_directorsName(instituteDTO.getDto_directorsName());
+		institution.setStatus(instituteDTO.getDto_status_id());
 
 
 		Institution newInstitution = intituteReposiortyI.save(institution);

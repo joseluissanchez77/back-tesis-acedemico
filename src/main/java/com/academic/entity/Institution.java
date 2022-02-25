@@ -1,10 +1,18 @@
 package com.academic.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 
@@ -46,13 +54,22 @@ public class Institution {
 	@Column(name = "it_directorsName", nullable = false)
 	private String it_directorsName;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "status_id", nullable = false)
+	private Status status;
+	
+	//orphanRemoval borra las depedencias
+	@OneToMany(mappedBy = "institution", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Course> courses = new HashSet<>();
+
 	public Institution() {
 		super();
 	}
 
+
 	public Institution(Long id, String it_schoolName, String it_registrationNumber, String it_province, String it_city,
 			String it_address, String it_zipCode, String it_telephoneOne, String it_telephoneTwo, String it_email,
-			String it_directorsName) {
+			String it_directorsName, Status status) {
 		super();
 		this.id = id;
 		this.it_schoolName = it_schoolName;
@@ -65,7 +82,20 @@ public class Institution {
 		this.it_telephoneTwo = it_telephoneTwo;
 		this.it_email = it_email;
 		this.it_directorsName = it_directorsName;
+		this.status = status;
 	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+
 
 	public Long getId() {
 		return id;

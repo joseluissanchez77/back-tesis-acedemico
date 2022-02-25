@@ -1,5 +1,7 @@
 package com.academic.dto;
 
+import com.academic.entity.Status;
+
 public class InstituteDTO {
 
 	private Long id;
@@ -23,14 +25,19 @@ public class InstituteDTO {
 	private String dto_email;
 
 	private String dto_directorsName;
+	
+	private Status dto_status_id;
 
 	public InstituteDTO() {
 		super();
 	}
 
+	
+
+
 	public InstituteDTO(Long id, String dto_schoolName, String dto_registrationNumber, String dto_province,
 			String dto_city, String dto_address, String dto_zipCode, String dto_telephoneOne, String dto_telephoneTwo,
-			String dto_email, String dto_directorsName) {
+			String dto_email, String dto_directorsName, Status dto_status_id) {
 		super();
 		this.id = id;
 		this.dto_schoolName = dto_schoolName;
@@ -43,7 +50,25 @@ public class InstituteDTO {
 		this.dto_telephoneTwo = dto_telephoneTwo;
 		this.dto_email = dto_email;
 		this.dto_directorsName = dto_directorsName;
+		this.dto_status_id = dto_status_id;
 	}
+
+
+
+
+	public Status getDto_status_id() {
+		return dto_status_id;
+	}
+
+
+
+
+	public void setDto_status_id(Status dto_status_id) {
+		this.dto_status_id = dto_status_id;
+	}
+
+
+
 
 	public Long getId() {
 		return id;
