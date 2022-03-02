@@ -3,6 +3,8 @@ package com.academic.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -54,11 +56,13 @@ public class Institution {
 	@Column(name = "it_directorsName", nullable = false)
 	private String it_directorsName;
 
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "status_id", nullable = false)
 	private Status status;
-	
-	//orphanRemoval borra las depedencias
+
+	// orphanRemoval borra las depedencias
+	@JsonBackReference
 	@OneToMany(mappedBy = "institution", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Course> courses = new HashSet<>();
 
@@ -66,10 +70,9 @@ public class Institution {
 		super();
 	}
 
-
 	public Institution(Long id, String it_schoolName, String it_registrationNumber, String it_province, String it_city,
 			String it_address, String it_zipCode, String it_telephoneOne, String it_telephoneTwo, String it_email,
-			String it_directorsName, Status status) {
+			String it_directorsName, Long status_id, Status status) {
 		super();
 		this.id = id;
 		this.it_schoolName = it_schoolName;
@@ -85,28 +88,21 @@ public class Institution {
 		this.status = status;
 	}
 
-	
 	public Set<Course> getCourses() {
 		return courses;
 	}
-
 
 	public void setCourses(Set<Course> courses) {
 		this.courses = courses;
 	}
 
-
 	public Status getStatus() {
 		return status;
 	}
 
-
-
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-
-
 
 	public Long getId() {
 		return id;

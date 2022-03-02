@@ -9,44 +9,61 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+
 import org.springframework.stereotype.Service;
 
 import com.academic.dto.InstituteDTO;
 import com.academic.dto.InstituteResponse;
+
+import com.academic.dto.extendsDto.ExtInstituteDTO;
 import com.academic.entity.Institution;
+import com.academic.entity.Status;
 import com.academic.exception.ResourceNotFoundException;
 import com.academic.repository.IntituteReposiortyI;
+import com.academic.repository.StatusRepositoryI;
 
 @Service
 public class InstituteServiceImplement implements InstituteServiceI {
 	@Autowired
 	private IntituteReposiortyI intituteReposiortyI;
 
+	@Autowired
+	private StatusRepositoryI statusRepositoryI;
+
 	@Override
 	public InstituteDTO createIsntitute(InstituteDTO instituteDTO) {
+
 		// covertir DTO a entidad
 		Institution institution = mapearEntity(instituteDTO);
 
+		Status status = statusRepositoryI.findById(instituteDTO.getStatus_id())
+				.orElseThrow(() -> new ResourceNotFoundException("Status", "id", instituteDTO.getStatus_id()));
+
+		institution.setStatus(status);
 		// covertir ENTIDAD a DTO
 		Institution newInstitution = intituteReposiortyI.save(institution);
 
 		InstituteDTO institutionResponse = mapearDTO(newInstitution);
+		institutionResponse.setStatus_id(instituteDTO.getStatus_id());
 		return institutionResponse;
 	}
 
-	@Override 
-	public InstituteResponse getAllIntitute(int pageNo,int pageSize,String sortBy, String sortDir) {
-	//public List<InstituteDTO> getAllIntitute(int pageNo,int pageSize) {
-		
-		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending() ;
+	@Override
+	public InstituteResponse getAllIntitute(int pageNo, int pageSize, String sortBy, String sortDir) {
+		// public List<InstituteDTO> getAllIntitute(int pageNo,int pageSize) {
+
+		Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending()
+				: Sort.by(sortBy).descending();
 		Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
-		
+
 		Page<Institution> institutePage = intituteReposiortyI.findAll(pageable);
-		
-		//List<Institution> listOfInstitute = institutePage.getContent();//intituteReposiortyI.findAll();
-		List<Institution> listOfInstitute = institutePage.getContent();//intituteReposiortyI.findAll();
-		List<InstituteDTO>  contenido = listOfInstitute.stream().map(intitu -> mapearDTO(intitu)).collect(Collectors.toList());
-		
+
+		// List<Institution> listOfInstitute =
+		// institutePage.getContent();//intituteReposiortyI.findAll();
+		List<Institution> listOfInstitute = institutePage.getContent();// intituteReposiortyI.findAll();
+		List<InstituteDTO> contenido = listOfInstitute.stream().map(intitu -> mapearDTO(intitu))
+				.collect(Collectors.toList());
+
 		InstituteResponse instituteResponse = new InstituteResponse();
 		instituteResponse.setContent(contenido);
 		instituteResponse.setPageNo(institutePage.getNumber());
@@ -54,14 +71,14 @@ public class InstituteServiceImplement implements InstituteServiceI {
 		instituteResponse.setTotalElement(institutePage.getTotalElements());
 		instituteResponse.setTotalPage(institutePage.getTotalPages());
 		instituteResponse.setLast(institutePage.isLast());
-		
+
 		return instituteResponse;
 
 	}
 
 	// metodo q convierte ENTIDAD a DTO
 	private InstituteDTO mapearDTO(Institution institute) {
-		InstituteDTO instituteDTO = new InstituteDTO();
+		ExtInstituteDTO instituteDTO = new ExtInstituteDTO();
 
 		instituteDTO.setId(institute.getId());
 		instituteDTO.setDto_schoolName(institute.getIt_schoolName());
@@ -74,13 +91,13 @@ public class InstituteServiceImplement implements InstituteServiceI {
 		instituteDTO.setDto_telephoneTwo(institute.getIt_telephoneTwo());
 		instituteDTO.setDto_email(institute.getIt_email());
 		instituteDTO.setDto_directorsName(institute.getIt_directorsName());
-		instituteDTO.setCourse(institute.getCourses());
 
+		instituteDTO.setCourse(institute.getCourses());
+		instituteDTO.setStatus(institute.getStatus());
 
 		return instituteDTO;
 
 	}
-	
 
 	// metodo q convierte DTO a ENTIDAD
 	private Institution mapearEntity(InstituteDTO instituteDTO) {
@@ -98,7 +115,6 @@ public class InstituteServiceImplement implements InstituteServiceI {
 		institute.setIt_telephoneTwo(instituteDTO.getDto_telephoneTwo());
 		institute.setIt_email(instituteDTO.getDto_email());
 		institute.setIt_directorsName(instituteDTO.getDto_directorsName());
-		institute.setStatus(instituteDTO.getDto_status_id());
 
 		return institute;
 
@@ -120,6 +136,9 @@ public class InstituteServiceImplement implements InstituteServiceI {
 		Institution institution = intituteReposiortyI.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Institucion", "id", id));
 
+		Status status = statusRepositoryI.findById(instituteDTO.getStatus_id())
+				.orElseThrow(() -> new ResourceNotFoundException("Status", "id", instituteDTO.getStatus_id()));
+
 		// covertir DTO a entidad
 		institution.setIt_schoolName(instituteDTO.getDto_schoolName());
 		institution.setIt_registrationNumber(instituteDTO.getDto_registrationNumber());
@@ -131,24 +150,23 @@ public class InstituteServiceImplement implements InstituteServiceI {
 		institution.setIt_telephoneTwo(instituteDTO.getDto_telephoneTwo());
 		institution.setIt_email(instituteDTO.getDto_email());
 		institution.setIt_directorsName(instituteDTO.getDto_directorsName());
-		institution.setStatus(instituteDTO.getDto_status_id());
-
+		institution.setStatus(status);
 
 		Institution newInstitution = intituteReposiortyI.save(institution);
-
-		return mapearDTO(newInstitution);
+		InstituteDTO institutionResponse = mapearDTO(newInstitution);
+		institutionResponse.setStatus_id(instituteDTO.getStatus_id());
+		return institutionResponse;
 
 	}
 
 	@Override
 	public void deleteInstitute(long id) {
-		
+
 		Institution institution = intituteReposiortyI.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Institucion", "id", id));
 
 		intituteReposiortyI.delete(institution);
-		
-		
+
 	}
 
 }
