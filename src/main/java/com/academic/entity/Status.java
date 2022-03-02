@@ -2,6 +2,9 @@ package com.academic.entity;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,6 +18,7 @@ import jakarta.persistence.UniqueConstraint;
 
 @Entity(name = "status")
 @Table(name = "status", uniqueConstraints = { @UniqueConstraint(columnNames = { "st_name" }) })
+@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
 public class Status {
 
 	@Id
@@ -27,6 +31,7 @@ public class Status {
 	@Column(name = "st_keyword", nullable = false)
 	private String st_keyword;
 
+	@JsonBackReference
 	@OneToMany(mappedBy = "status",cascade= CascadeType.ALL, orphanRemoval = true)
 	private Set<Institution> institution;
 

@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.academic.dto.CourseDTO;
+import com.academic.dto.extendsDto.ExtCourseDTO;
 import com.academic.entity.Course;
 import com.academic.entity.Institution;
 import com.academic.entity.Status;
@@ -113,12 +114,12 @@ public class CourseServiceImplement implements CourseServiceI {
 	}
 
 	private CourseDTO mapearDTO(Course course) {
-		CourseDTO courseDTO = new CourseDTO();
+		ExtCourseDTO courseDTO = new ExtCourseDTO();
 
 		courseDTO.setId(course.getId());
 		courseDTO.setName(course.getCo_name());
 		courseDTO.setParallel(course.getCo_parallel());
-
+		courseDTO.setStatus(course.getStatus());
 		/*
 		 * ModelMapper » 3.0.0
 		 * solo funciona si el dto y model son iguales en nombres CourseDTO courseDTO =
@@ -134,6 +135,7 @@ public class CourseServiceImplement implements CourseServiceI {
 		course.setId(courseDTO.getId());
 		course.setCo_name(courseDTO.getName());
 		course.setCo_parallel(courseDTO.getParallel());
+//		course.setStatus(courseDTO.getStatus());
 		/*
 		 * ModelMapper » 3.0.0
 		 * solo funciona si el dto y model son iguales en nombres Course course =

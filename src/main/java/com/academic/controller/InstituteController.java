@@ -1,8 +1,8 @@
 package com.academic.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,26 +27,26 @@ public class InstituteController {
 
 	@GetMapping
 	public InstituteResponse listInstitutes(
-	//public List<InstituteDTO> listInstitutes(
+			// public List<InstituteDTO> listInstitutes(
 			@RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int numberPage,
 			@RequestParam(value = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) int pageSize,
 			@RequestParam(value = "sortBy", defaultValue = AppConstants.SORT_BY_DEFAULT, required = false) String sortBy,
 			@RequestParam(value = "sortDir", defaultValue = AppConstants.SORT_ADDRESS_BY_DEFAULT, required = false) String sortDir) {
-		return instituteServiceI.getAllIntitute(numberPage,pageSize, sortBy,sortDir);
+		return instituteServiceI.getAllIntitute(numberPage, pageSize, sortBy, sortDir);
 	}
-	
 
 	@GetMapping("/{id}")
 	public ResponseEntity<InstituteDTO> getByIdInstitute(@PathVariable(name = "id") long id) {
 		return ResponseEntity.ok(instituteServiceI.getAllIntituteById(id));
 	}
-	
 
-	@PostMapping
+//	@PostMapping( value ="/status/{statusId}",
+//			consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
+//	        produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+	@PostMapping()
 	public ResponseEntity<InstituteDTO> saveInstitute(@RequestBody InstituteDTO instituteDTO) {
 		return new ResponseEntity<>(instituteServiceI.createIsntitute(instituteDTO), HttpStatus.CREATED);
 	}
-	
 
 	@PutMapping("/{id}")
 	public ResponseEntity<InstituteDTO> updateInstitute(@RequestBody InstituteDTO instituteDTO,
@@ -54,7 +54,6 @@ public class InstituteController {
 		InstituteDTO instituteDtoResponse = instituteServiceI.updateIntitute(instituteDTO, id);
 		return new ResponseEntity<>(instituteDtoResponse, HttpStatus.OK);
 	}
-	
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteIntitute(@PathVariable(name = "id") long id) {

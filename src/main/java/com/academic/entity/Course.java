@@ -3,6 +3,7 @@ package com.academic.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,6 +18,7 @@ import jakarta.persistence.UniqueConstraint;
 
 @Entity(name = "Course")
 @Table(name = "Course", uniqueConstraints = { @UniqueConstraint(columnNames = { "co_name" }) })
+@JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
 public class Course {
 	
 	
