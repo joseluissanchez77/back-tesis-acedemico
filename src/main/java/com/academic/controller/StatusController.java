@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.academic.dto.StatusDTO;
 import com.academic.service.StatusServiceI;
 
+import jakarta.validation.Valid;
+
 
 @RestController
 @RequestMapping("/api/state")
@@ -31,7 +33,7 @@ public class StatusController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<StatusDTO> saveStatus(@RequestBody StatusDTO statusDTO) {
+	public ResponseEntity<StatusDTO> saveStatus(@Valid @RequestBody StatusDTO statusDTO) {
 		return new ResponseEntity<>(statusServiceI.createStatus(statusDTO), HttpStatus.CREATED);
 	}
 	
@@ -42,7 +44,7 @@ public class StatusController {
 	
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<StatusDTO> updateStatus(@RequestBody StatusDTO statusDTO,
+	public ResponseEntity<StatusDTO> updateStatus(@Valid @RequestBody StatusDTO statusDTO,
 			@PathVariable(name = "id") long id) {
 		StatusDTO statusDTOResponse= statusServiceI.updateStatus(statusDTO, id);
 		return new ResponseEntity<>(statusDTOResponse, HttpStatus.OK);

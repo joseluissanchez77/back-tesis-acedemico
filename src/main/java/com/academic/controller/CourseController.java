@@ -39,9 +39,12 @@ public class CourseController {
 		return new ResponseEntity<>(courseDTO,HttpStatus.OK);
 	}
 
-	@PostMapping("institute/{institutionId}/status/{statusId}/course")
+	
+	
+	@PostMapping(value="institute/{institutionId}/status/{statusId}/course", consumes={"application/json"})
 	public ResponseEntity<CourseDTO> saveCourse(@PathVariable(value = "institutionId") long institutionId,
 			@PathVariable(value = "statusId") long statusId, @RequestBody CourseDTO courseDTO) {
+		
 		return new ResponseEntity<>(courseServiceImplement.createCourse(institutionId, statusId, courseDTO),
 				HttpStatus.CREATED);
 	}
