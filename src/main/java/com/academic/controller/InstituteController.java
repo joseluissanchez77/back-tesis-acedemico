@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,11 +44,13 @@ public class InstituteController {
 //	@PostMapping( value ="/status/{statusId}",
 //			consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
 //	        produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+	@PreAuthorize("hasRole('ADMINISTRADOR')")
 	@PostMapping()
 	public ResponseEntity<InstituteDTO> saveInstitute(@RequestBody InstituteDTO instituteDTO) {
 		return new ResponseEntity<>(instituteServiceI.createIsntitute(instituteDTO), HttpStatus.CREATED);
 	}
 
+	@PreAuthorize("hasRole('ADMINISTRADOR')")
 	@PutMapping("/{id}")
 	public ResponseEntity<InstituteDTO> updateInstitute(@RequestBody InstituteDTO instituteDTO,
 			@PathVariable(name = "id") long id) {
@@ -55,6 +58,7 @@ public class InstituteController {
 		return new ResponseEntity<>(instituteDtoResponse, HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasRole('ADMINISTRADOR')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteIntitute(@PathVariable(name = "id") long id) {
 		instituteServiceI.deleteInstitute(id);
