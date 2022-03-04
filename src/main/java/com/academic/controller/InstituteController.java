@@ -44,13 +44,13 @@ public class InstituteController {
 //	@PostMapping( value ="/status/{statusId}",
 //			consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
 //	        produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-	@PreAuthorize("hasRole('ADMINISTRADOR')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping()
 	public ResponseEntity<InstituteDTO> saveInstitute(@RequestBody InstituteDTO instituteDTO) {
 		return new ResponseEntity<>(instituteServiceI.createIsntitute(instituteDTO), HttpStatus.CREATED);
 	}
 
-	@PreAuthorize("hasRole('ADMINISTRADOR')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PutMapping("/{id}")
 	public ResponseEntity<InstituteDTO> updateInstitute(@RequestBody InstituteDTO instituteDTO,
 			@PathVariable(name = "id") long id) {
@@ -58,7 +58,7 @@ public class InstituteController {
 		return new ResponseEntity<>(instituteDtoResponse, HttpStatus.OK);
 	}
 
-	@PreAuthorize("hasRole('ADMINISTRADOR')")
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteIntitute(@PathVariable(name = "id") long id) {
 		instituteServiceI.deleteInstitute(id);
