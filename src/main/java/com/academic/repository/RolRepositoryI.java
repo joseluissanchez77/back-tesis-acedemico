@@ -5,9 +5,9 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.academic.entity.Rol;
-import com.academic.entity.Usuario;
 
-public interface RolRepositoryI extends JpaRepository<Usuario, Long>{
 
-	public Optional<Rol> findByName(String nombre);
+public interface RolRepositoryI extends JpaRepository<Rol, Long>{
+
+	public Optional<Rol> findByNombre(String nombre);
 }
