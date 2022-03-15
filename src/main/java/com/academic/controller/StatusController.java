@@ -39,6 +39,7 @@ public class StatusController {
 		return new ResponseEntity<>(statusServiceI.createStatus(statusDTO), HttpStatus.CREATED);
 	}
 	
+	@CrossOrigin(origins = "http://localhost:4200")
 	@GetMapping("/{id}")
 	public ResponseEntity<StatusDTO> getByIdStatus(@PathVariable(name = "id") long id) {
 		return ResponseEntity.ok(statusServiceI.getStatusById(id));
