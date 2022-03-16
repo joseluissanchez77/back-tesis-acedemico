@@ -28,7 +28,7 @@ public class StatusController {
 	@Autowired
 	private StatusServiceI statusServiceI;
 	
-	@CrossOrigin(origins = "http://localhost:4200")
+	
 	@GetMapping
 	public List<StatusDTO> listStatus(){
 		return statusServiceI.getAllStatus();
@@ -39,13 +39,13 @@ public class StatusController {
 		return new ResponseEntity<>(statusServiceI.createStatus(statusDTO), HttpStatus.CREATED);
 	}
 	
-	@CrossOrigin(origins = "http://localhost:4200")
+
 	@GetMapping("/{id}")
 	public ResponseEntity<StatusDTO> getByIdStatus(@PathVariable(name = "id") long id) {
 		return ResponseEntity.ok(statusServiceI.getStatusById(id));
 	}
 	
-	
+
 	@PutMapping("/{id}")
 	public ResponseEntity<StatusDTO> updateStatus(@Valid @RequestBody StatusDTO statusDTO,
 			@PathVariable(name = "id") long id) {
