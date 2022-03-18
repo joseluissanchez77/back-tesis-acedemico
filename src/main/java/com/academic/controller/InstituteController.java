@@ -27,7 +27,6 @@ public class InstituteController {
 	@Autowired
 	private InstituteServiceI instituteServiceI;
 
-	@CrossOrigin(origins = "http://localhost:4200")
 	@GetMapping
 	public InstituteResponse listInstitutes(
 			// public List<InstituteDTO> listInstitutes(
