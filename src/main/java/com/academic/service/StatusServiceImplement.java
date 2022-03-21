@@ -1,13 +1,14 @@
 package com.academic.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-
+import com.academic.dto.ResponseDetailsDTO;
 import com.academic.dto.StatusDTO;
 
 import com.academic.entity.Status;
@@ -86,11 +87,23 @@ public class StatusServiceImplement implements StatusServiceI {
 
 
 	@Override
-	public void deleteStatus(long id) {
+	public ResponseDetailsDTO deleteStatus(long id) {
 		Status status = statusRepositoryI.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Estado", "id", id));
 
 		statusRepositoryI.delete(status);
+		
+	
+		ResponseDetailsDTO responseDTO = new ResponseDetailsDTO();
+
+		//mensaje de respuesta
+		responseDTO.setId(status.getId());
+		responseDTO.setMessage("Estado : "+status.getSt_name()+". Borrado Correctamente.");
+		responseDTO.setDetails(status.getSt_name());
+		responseDTO.setTimestamp(new Date());
+		responseDTO.setStatusCode(HttpStatus.OK.value());
+		
+		return responseDTO;
 		
 	}
 

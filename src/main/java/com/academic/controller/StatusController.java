@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.academic.dto.ResponseDetailsDTO;
 import com.academic.dto.StatusDTO;
 import com.academic.service.StatusServiceI;
 
@@ -53,10 +55,12 @@ public class StatusController {
 		return new ResponseEntity<>(statusDTOResponse, HttpStatus.OK);
 	}
 	
+
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteStatus(@PathVariable(name = "id") long id) {
-		statusServiceI.deleteStatus(id);
-		return new ResponseEntity<>("Estado borrado", HttpStatus.OK);
+	public ResponseEntity<ResponseDetailsDTO> deleteStatus(@PathVariable(name = "id") long id) {
+		ResponseDetailsDTO responseDetailsDTO = statusServiceI.deleteStatus(id);
+		return new ResponseEntity<>(responseDetailsDTO, HttpStatus.OK);
 
 	}
 }

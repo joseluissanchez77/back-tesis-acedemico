@@ -2,6 +2,7 @@ package com.academic.service;
 
 import java.util.List;
 
+import com.academic.dto.ResponseDetailsDTO;
 import com.academic.dto.StatusDTO;
 
 public interface StatusServiceI {
@@ -20,6 +21,6 @@ public interface StatusServiceI {
 	public StatusDTO updateStatus(StatusDTO statusDTO, long id);
 	
 	//borrar
-	public void deleteStatus( long id);
+	public ResponseDetailsDTO deleteStatus( long id);
 	
 }
