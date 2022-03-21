@@ -3,6 +3,7 @@ package com.academic.controller;
 import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.academic.dto.LoginDTO;
+import com.academic.dto.OnUserLogoutSuccessEvent;
 import com.academic.dto.RegisterUserDTO;
 import com.academic.entity.Rol;
 import com.academic.entity.Usuario;
@@ -24,6 +26,8 @@ import com.academic.repository.RolRepositoryI;
 import com.academic.repository.UserRepositoryI;
 import com.academic.security.JWTAuthResonseDTO;
 import com.academic.security.JwtTokenProvider;
+
+import io.jsonwebtoken.Jwts;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -43,6 +47,9 @@ public class AuthController {
 
 	@Autowired
 	private JwtTokenProvider jwtTokenProvider;
+
+	@Autowired
+	private ApplicationEventPublisher applicationEventPublisher;
 
 	@PostMapping("/login")
 	public ResponseEntity<JWTAuthResonseDTO> authenticateUser(@RequestBody LoginDTO loginDTO) {
@@ -84,6 +91,26 @@ public class AuthController {
 		userRepositoryI.save(usuario);
 
 		return new ResponseEntity<>("Usuario registrado exitosamente", HttpStatus.OK);
+
+	}
+
+	@PostMapping("/logout")
+	public ResponseEntity<String>  logoutUser(@RequestBody JWTAuthResonseDTO loginDTO) {
+//		Authentication authentication = authenticationManager.authenticate(
+//				new UsernamePasswordAuthenticationToken(loginDTO.getUsernameOrEmail(), loginDTO.getPassword()));
+//
+//		SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//		// obtenemos el token del jwt provider
+//		String token = jwtTokenProvider.generaToken(authentication);
+//		System.out.println(token);
+//
+//		return ResponseEntity.ok(new JWTAuthResonseDTO(token));
+
+		OnUserLogoutSuccessEvent logoutSuccessEvent = new OnUserLogoutSuccessEvent(loginDTO.getTokenDeAcceso());
+		applicationEventPublisher.publishEvent(logoutSuccessEvent);
+
+		return new ResponseEntity<>("Tokrn anulado", HttpStatus.OK);
 
 	}
 
