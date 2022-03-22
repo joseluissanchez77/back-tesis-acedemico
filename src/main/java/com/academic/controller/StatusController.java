@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.academic.dto.ResponseDetailsDTO;
 import com.academic.dto.StatusDTO;
 import com.academic.service.StatusServiceI;
 
@@ -57,9 +58,9 @@ public class StatusController {
 
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteStatus(@PathVariable(name = "id") long id) {
-		statusServiceI.deleteStatus(id);
-		return new ResponseEntity<>("Estado borrado", HttpStatus.OK);
+	public ResponseEntity<ResponseDetailsDTO> deleteStatus(@PathVariable(name = "id") long id) {
+		ResponseDetailsDTO responseDetailsDTO = statusServiceI.deleteStatus(id);
+		return new ResponseEntity<>(responseDetailsDTO, HttpStatus.OK);
 
 	}
 }
